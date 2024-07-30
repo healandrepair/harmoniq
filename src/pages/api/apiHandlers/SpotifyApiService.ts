@@ -12,7 +12,7 @@ export async function GetTopSongsApi(req: NextApiRequest, res: NextApiResponse<D
 
     var baseurl = "https://api.spotify.com";
     var fullUrl = baseurl + "/v1/me/top/tracks?limit=" + amount;
-    var token = await GetToken(req, res);
+    var token = await GetAuthFromCookie(req, res);
 
     const headers = {
         Authorization: "Bearer " + token,
@@ -35,9 +35,9 @@ export async function GetTopSongsApi(req: NextApiRequest, res: NextApiResponse<D
     };
 }
 
-export async function GetToken(req: NextApiRequest, res: NextApiResponse<Data>){
-    var client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
-    var client_secret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+export async function GetToken(req: NextApiRequest, res: NextApiResponse<Data>, code: string) {
+    var client_id = process.env.NEXT_PUBLIC_CLIENT_ID as string;
+    var client_secret = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
 
     const headers = {
         Authorization: "Basic " + Buffer.from(client_id + ":" + client_secret).toString("base64"),
@@ -45,7 +45,9 @@ export async function GetToken(req: NextApiRequest, res: NextApiResponse<Data>){
     };
 
     const body = new URLSearchParams({
-        grant_type: 'client_credentials'
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI as string
     });
 
     const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -62,19 +64,40 @@ export async function GetToken(req: NextApiRequest, res: NextApiResponse<Data>){
     }
 
     const data = await response.json();
+    
+    res.setHeader("Set-Cookie", `token=${data.access_token}; HttpOnly; Secure; SameSite=None; Path=/`);
+    
     return data.access_token;
 }
 
 export async function GetAuthorizationCode(req: NextApiRequest, res: NextApiResponse<Data>) {
     var client_id = process.env.NEXT_PUBLIC_CLIENT_ID;
     var redirect_uri = process.env.NEXT_PUBLIC_REDIRECT_URI;
-
-    const scopes = "user-read-private user-read-email";
-    const url = "https://accounts.spotify.com/authorize" +
+    
+    const scopes = "user-read-private user-read-email user-top-read";
+    const url : string = "https://accounts.spotify.com/authorize" +
         "?response_type=code" +
         "&client_id=" + client_id +
         (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
-        "&redirect_uri=" + encodeURIComponent(redirect_uri);
+        "&redirect_uri=" + encodeURIComponent(redirect_uri as string);
 
     res.redirect(url);
+}
+
+export async function GetAuthFromCookie(req: NextApiRequest, res: NextApiResponse<Data>) {
+    const response = await fetch("http://localhost:3000/api/spotify/protected", {
+        method: "GET",
+        credentials: 'include'
+    });
+    
+    console.log("Got the cookie")
+    
+    console.log(response)
+
+    if (!response.ok) {
+        throw new Error("Not authorized");
+    }
+    
+    const data = response.json();
+    return data;
 }

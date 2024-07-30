@@ -1,6 +1,6 @@
 import React from "react";
 
-function Table(items: Array<object>) {
+function ListOfSongs(items: Array<object>) {
     return (
         <ul>
             {items.map((item, data) => (
@@ -14,4 +14,4 @@ function Table(items: Array<object>) {
 
 
 
-export default Table;
+export default ListOfSongs;
