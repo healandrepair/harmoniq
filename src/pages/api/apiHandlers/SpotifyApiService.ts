@@ -1,38 +1,10 @@
 import type  {NextApiRequest, NextApiResponse} from "next";
+import cookie from "cookie";
 
 
 type Data = {
     success: boolean;
     data?: any;
-}
-
-// Get Spotify Data
-export async function GetTopSongsApi(req: NextApiRequest, res: NextApiResponse<Data>) {
-    var amount : number = parseInt(req.query.amount as string);
-
-    var baseurl = "https://api.spotify.com";
-    var fullUrl = baseurl + "/v1/me/top/tracks?limit=" + amount;
-    var token = await GetAuthFromCookie(req, res);
-
-    const headers = {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json"
-    };
-
-    const response = await fetch(fullUrl, {
-        method: "GET",
-        headers: headers
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        return data;
-    }
-    
-    return {
-        success: false,
-        data: null
-    };
 }
 
 export async function GetToken(req: NextApiRequest, res: NextApiResponse<Data>, code: string) {
@@ -84,20 +56,26 @@ export async function GetAuthorizationCode(req: NextApiRequest, res: NextApiResp
     res.redirect(url);
 }
 
-export async function GetAuthFromCookie(req: NextApiRequest, res: NextApiResponse<Data>) {
-    const response = await fetch("http://localhost:3000/api/spotify/protected", {
-        method: "GET",
-        credentials: 'include'
-    });
-    
-    console.log("Got the cookie")
-    
-    console.log(response)
-
-    if (!response.ok) {
-        throw new Error("Not authorized");
-    }
-    
-    const data = response.json();
-    return data;
-}
+// export async function GetAuthFromCookie(req: NextApiRequest, res: NextApiResponse<Data>) {
+//     const cookies = cookie.parse(req.headers.cookie || '');
+//     const token = cookies.token;
+//
+//     // Log the token for debugging purposes
+//     console.log('Test token:', token);
+//    
+//     const response = await fetch("http://localhost:3000/api/spotify/protected", {
+//         method: "GET",
+//         credentials: 'include'
+//     });
+//    
+//     console.log("Got the cookie")
+//    
+//     console.log(response)
+//
+//     if (!response.ok) {
+//         throw new Error("Not authorized");
+//     }
+//    
+//     const data = response.json();
+//     return data;
+// }

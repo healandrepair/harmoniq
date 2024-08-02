@@ -13,7 +13,9 @@ function Unwrapped() {
     async function getTopSongs() {
         try {
             console.log("Fetching top songs...");
-            const response = await fetch("http://localhost:3000/api/spotify/top-songs?amount=5");
+            const response = await fetch("http://localhost:3000/api/spotify/topsongs", {
+                method: 'GET',
+                credentials: 'include'});
             console.log("Response received");
 
             if (!response.ok) {
