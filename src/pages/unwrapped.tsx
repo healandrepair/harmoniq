@@ -6,10 +6,10 @@ function Unwrapped() {
     const [topSongs, setTopSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
-    // useEffect(() => {
-    //     getTopSongs();
-    // }, []);
+
+    useEffect(() => {
+        console.log('topSongs state has changed:', topSongs);
+    }, [topSongs]);
     async function getTopSongs() {
         try {
             console.log("Fetching top songs...");
@@ -23,9 +23,10 @@ function Unwrapped() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json();
-            console.log("Data parsed:", data);
-            setTopSongs(data);
+            const json = await response.json();
+            console.log("Data parsed:", json.data["items"]);
+            setTopSongs(json.data["items"]);
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching top songs:', error);
             setError(error.message);
@@ -87,10 +88,11 @@ function Unwrapped() {
 
             <button onClick={getTopSongs}> Get songs</button>
 
+            <div>Top songs: {topSongs}</div>
 
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : (
                 <ul>
-                    {topSongs.map((song, index) => (
+                    {(topSongs || []).map((song, index) => (
                         <li key={index}>{song}</li>
                     ))}
                 </ul>

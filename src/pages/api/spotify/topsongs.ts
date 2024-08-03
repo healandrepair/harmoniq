@@ -14,7 +14,8 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
 
     try {
         // Get Spotify Data
-        const amount = parseInt(req.query.amount as string, 10);
+        let amount : number = parseInt(req.query.amount as string, 10);
+        amount = 10;
 
         const baseurl = "https://api.spotify.com";
         const fullUrl = `${baseurl}/v1/me/top/tracks?limit=${amount}`;
@@ -43,6 +44,8 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
             headers: headers
         });
 
+        console.log(response)
+        
         if (response.ok) {
             const data = await response.json();
             // Send the successful response
