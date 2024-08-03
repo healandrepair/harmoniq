@@ -1,9 +1,11 @@
 
-import {GetTopSongsApi, GetAuthorizationCode, GetAuthFromCookie} from './api/apiHandlers/SpotifyApiService';
+import {GetAuthorizationCode} from './api/apiHandlers/SpotifyApiService';
 import {useEffect, useState} from "react";
 
+import {Track} from "@/interfaces/track";
+
 function Unwrapped() {
-    const [topSongs, setTopSongs] = useState([]);
+    const [topSongs, setTopSongs] = useState<Track[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,8 +26,10 @@ function Unwrapped() {
             }
 
             const json = await response.json();
-            console.log("Data parsed:", json.data["items"]);
-            setTopSongs(json.data["items"]);
+            
+            const tracks : Track[] = json.data["items"];
+            console.log("Data parsed:", tracks);
+            setTopSongs(tracks);
             setLoading(false)
         } catch (error) {
             console.error('Error fetching top songs:', error);
@@ -39,14 +43,14 @@ function Unwrapped() {
 
             window.location.href = "/api/spotify/authorization";
 
-            console.log("Got the authorization")
-            if (!response.ok) {
-                console.error("Error occurred")
-            }
-
-            var data = response.json();
-
-            return data;
+            // console.log("Got the authorization")
+            // if (!response.ok) {
+            //     console.error("Error occurred")
+            // }
+            //
+            // var data = response.json();
+            //
+            // return data;
         }
         catch (error) {
             console.error('Error fetching top songs:', error);
@@ -87,13 +91,11 @@ function Unwrapped() {
             <button onClick={GetCookie}> Get auth</button>
 
             <button onClick={getTopSongs}> Get songs</button>
-
-            <div>Top songs: {topSongs}</div>
-
+            
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : (
                 <ul>
                     {(topSongs || []).map((song, index) => (
-                        <li key={index}>{song}</li>
+                        <li key={index}>{song.name}</li> 
                     ))}
                 </ul>
             )}

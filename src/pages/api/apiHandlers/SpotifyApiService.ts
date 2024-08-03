@@ -1,6 +1,4 @@
 import type  {NextApiRequest, NextApiResponse} from "next";
-import cookie from "cookie";
-
 
 type Data = {
     success: boolean;
