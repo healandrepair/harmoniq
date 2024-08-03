@@ -3,6 +3,7 @@ import {GetAuthorizationCode} from './api/apiHandlers/SpotifyApiService';
 import {useEffect, useState} from "react";
 
 import {Track} from "@/interfaces/track";
+import TrackComponent from "@/components/TrackComponent";
 
 function Unwrapped() {
     const [topSongs, setTopSongs] = useState<Track[]>([]);
@@ -95,7 +96,7 @@ function Unwrapped() {
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : (
                 <ul>
                     {(topSongs || []).map((song, index) => (
-                        <li key={index}>{song.name}</li> 
+                        <TrackComponent track={song} key={index}/>
                     ))}
                 </ul>
             )}
