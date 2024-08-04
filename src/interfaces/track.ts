@@ -8,4 +8,5 @@ export interface Track {
     name: string;
     popularity: number;
     external_urls: External_url;
+    preview_url: string;
 }

@@ -12,6 +12,4 @@ function ListOfSongs(items: Array<object>) {
     );
 };
 
-
-
 export default ListOfSongs;
