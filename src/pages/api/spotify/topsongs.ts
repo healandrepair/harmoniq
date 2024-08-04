@@ -13,10 +13,13 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
 
     try {
         // Get Spotify Data
-        var queryParams = req.query.toString();
+        const querystring = require('querystring');
+
+        const queryParams = querystring.stringify(req.query);
         
-        let limit : number = parseInt(req.query.amount as string, 10);
-        limit = 10;
+        console.log("Query Params: ", req.query);
+        // let limit : number = parseInt(req.query.amount as string, 10);
+        // limit = 10;
 
         const baseurl = "https://api.spotify.com";
         const fullUrl = `${baseurl}/v1/me/top/tracks?${queryParams}`;
@@ -24,10 +27,7 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
         // Parse the cookies to get the token
         const cookies = cookie.parse(req.headers.cookie || '');
         const token = cookies.token;
-
-        // Log the token for debugging purposes
-        console.log('Test token:', token);
-
+        
         if (!token) {
             // Return an unauthorized response if token is missing
             res.status(401).json({ success: false, error: "Not authenticated" });

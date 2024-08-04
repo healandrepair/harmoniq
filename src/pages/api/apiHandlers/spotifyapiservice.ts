@@ -53,27 +53,3 @@ export async function GetAuthorizationCode(req: NextApiRequest, res: NextApiResp
 
     res.redirect(url);
 }
-
-// export async function GetAuthFromCookie(req: NextApiRequest, res: NextApiResponse<Data>) {
-//     const cookies = cookie.parse(req.headers.cookie || '');
-//     const token = cookies.token;
-//
-//     // Log the token for debugging purposes
-//     console.log('Test token:', token);
-//    
-//     const response = await fetch("http://localhost:3000/api/spotify/protected", {
-//         method: "GET",
-//         credentials: 'include'
-//     });
-//    
-//     console.log("Got the cookie")
-//    
-//     console.log(response)
-//
-//     if (!response.ok) {
-//         throw new Error("Not authorized");
-//     }
-//    
-//     const data = response.json();
-//     return data;
-// }

@@ -22,11 +22,11 @@ function Unwrapped() {
     useEffect(() => {
         console.log('topSongs state has changed:', topSongs);
     }, [topSongs]);
-    async function getTopSongs() {
+    async function getTopSongs(time_range: string = "medium_term") {
         try {
             const queryParameters = {
                 limit: "10",
-                time_range: "short_term"
+                time_range: time_range
             }
 
             var params = new URLSearchParams(queryParameters).toString();
@@ -137,14 +137,24 @@ function Unwrapped() {
                 <button className="btn btn-outline-secondary" onClick={GetAuthorization}> Log In</button>
                 {/*<button className="btn btn-outline-secondary" onClick={GetCookie}> Get auth</button>*/}
 
-                <button className="btn btn-outline-secondary" onClick={getTopSongs}> Get Songs</button>
-                <button className="btn btn-outline-secondary" onClick={getTopArtists}> Get Artists</button>
+                <button className="btn btn-outline-secondary" onClick={() => getTopSongs()}> Get Songs</button>
+                <button className="btn btn-outline-secondary" onClick={() => getTopArtists()}> Get Artists</button>
             </div>
 
 
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : isSongsEnabled ? (
                     <div>
-                        <h2 className={styles.text}>Here are your top tracks!</h2>
+                        <div className={styles.centerContent}>
+                            <h2 className={styles.text}>Here are your top tracks!</h2>
+
+                            <button className="btn btn-outline-secondary"
+                                    onClick={() => getTopSongs('short_term')}>Recent
+                            </button>
+                            <button className="btn btn-outline-secondary"
+                                    onClick={() => getTopSongs('long_term')}>Within the last year
+                            </button>
+                        </div>
+
 
                         <ul>
                             {(topSongs || []).map((song, index) => (
