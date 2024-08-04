@@ -9,6 +9,9 @@ import {number} from "prop-types";
 import {ArtistObject} from "@/interfaces/artistObject";
 import ArtistComponent from "@/components/ArtistComponent/ArtistComponent";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 function Unwrapped() {
     const [topSongs, setTopSongs] = useState<Track[]>([]);
     const [topArtists, setTopArtists] = useState<ArtistObject[]>([]);
@@ -94,15 +97,6 @@ function Unwrapped() {
             console.log("Attempting to get authorization")
 
             window.location.href = "/api/spotify/authorization";
-
-            // console.log("Got the authorization")
-            // if (!response.ok) {
-            //     console.error("Error occurred")
-            // }
-            //
-            // var data = response.json();
-            //
-            // return data;
         }
         catch (error) {
             console.error('Error fetching top songs:', error);
@@ -134,35 +128,41 @@ function Unwrapped() {
         }
     }
     
-    
-    
-    
     return (
         <div>
-            <h1 className={styles.heading}>
-                Unwrapped.
-            </h1>
-            <button onClick={GetAuthorization}> Log In</button>
-            <button onClick={GetCookie}> Get auth</button>
+            <div className={styles.centerContent}>
+                <h1 className={styles.heading}>
+                    Unwrapped.
+                </h1>
+                <button className="btn btn-outline-secondary" onClick={GetAuthorization}> Log In</button>
+                <button className="btn btn-outline-secondary" onClick={GetCookie}> Get auth</button>
 
-            <button onClick={getTopSongs}> Get songs</button>
-            <button onClick={getTopArtists}> Get Artists </button>
-            
-            <h2 className={styles.text}>Here are your top tracks</h2>
+                <button className="btn btn-outline-secondary" onClick={getTopSongs}> Get songs</button>
+                <button className="btn btn-outline-secondary" onClick={getTopArtists}> Get Artists</button>
+            </div>
 
 
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : isSongsEnabled ? (
-                    <ul>
-                        {(topSongs || []).map((song, index) => (
-                            <TrackComponent track={song} key={index} num={index+1}/>
-                        ))}
-                    </ul>
+                    <div>
+                        <h2 className={styles.text}>Here are your top tracks!</h2>
+
+                        <ul>
+                            {(topSongs || []).map((song, index) => (
+                                <TrackComponent track={song} key={index} num={index + 1}/>
+                            ))}
+                        </ul>
+                    </div>
+
                 ) :
+                <div>
+                    <h2 className={styles.text}>Here are your top artists!</h2>
+
                     <ul>
                         {(topArtists || []).map((artistObject, index) => (
-                            <ArtistComponent artist={artistObject} key={index} num={index+1}/>
+                            <ArtistComponent artist={artistObject} key={index} num={index + 1}/>
                         ))}
                     </ul>
+                </div>
             }
         </div>
     )
