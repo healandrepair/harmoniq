@@ -154,13 +154,13 @@ function Unwrapped() {
             {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : isSongsEnabled ? (
                     <ul>
                         {(topSongs || []).map((song, index) => (
-                            <TrackComponent track={song} key={index}/>
+                            <TrackComponent track={song} key={index} num={index+1}/>
                         ))}
                     </ul>
                 ) :
                     <ul>
                         {(topArtists || []).map((artistObject, index) => (
-                            <ArtistComponent artist={artistObject} key={index}/>
+                            <ArtistComponent artist={artistObject} key={index} num={index+1}/>
                         ))}
                     </ul>
             }
