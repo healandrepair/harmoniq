@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {GetToken} from "@/pages/api/apiHandlers/SpotifyApiService";
+import {GetToken} from "@/pages/api/apiHandlers/spotifyapiservice";
 
 export default async function callback(req: NextApiRequest, res: NextApiResponse) {
     const { code } = req.query;

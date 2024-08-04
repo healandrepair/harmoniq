@@ -8,18 +8,16 @@ type Data = {
     error?: string;
 };
 
-export default async function TopSongsRoute(req: NextApiRequest, res: NextApiResponse<Data>) {
-    console.log("Hello World");
-
+export default async function TopArtistsRoute(req: NextApiRequest, res: NextApiResponse<Data>) {
     try {
         // Get Spotify Data
         var queryParams = req.query.toString();
-        
+
         let limit : number = parseInt(req.query.amount as string, 10);
         limit = 10;
 
         const baseurl = "https://api.spotify.com";
-        const fullUrl = `${baseurl}/v1/me/top/tracks?${queryParams}`;
+        const fullUrl = `${baseurl}/v1/me/top/artists?${queryParams}`;
 
         // Parse the cookies to get the token
         const cookies = cookie.parse(req.headers.cookie || '');
@@ -46,7 +44,7 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
         });
 
         console.log(response)
-        
+
         if (response.ok) {
             const data = await response.json();
             // Send the successful response
