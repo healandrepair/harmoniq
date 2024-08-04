@@ -135,7 +135,7 @@ function Unwrapped() {
                     Unwrapped.
                 </h1>
                 <button className="btn btn-outline-secondary" onClick={GetAuthorization}> Log In</button>
-                <button className="btn btn-outline-secondary" onClick={GetCookie}> Get auth</button>
+                {/*<button className="btn btn-outline-secondary" onClick={GetCookie}> Get auth</button>*/}
 
                 <button className="btn btn-outline-secondary" onClick={getTopSongs}> Get songs</button>
                 <button className="btn btn-outline-secondary" onClick={getTopArtists}> Get Artists</button>
