@@ -25,10 +25,10 @@ function Unwrapped() {
     async function getTopSongs(time_range: string = "medium_term") {
         try {
             const queryParameters = {
-                limit: "10",
+                limit: "15",
                 time_range: time_range
             }
-
+            
             var params = new URLSearchParams(queryParameters).toString();
             
             console.log("Fetching top songs...");
@@ -57,13 +57,13 @@ function Unwrapped() {
         }
     }
 
-    async function getTopArtists() {
+    async function getTopArtists(time_range: string = "medium_term") {
         try {
             const queryParameters = {
-                limit: "10",
-                time_range: "short_term"
+                limit: "15",
+                time_range: time_range
             }
-
+            
             var params = new URLSearchParams(queryParameters).toString();
 
             console.log("Fetching top songs...");
@@ -72,6 +72,7 @@ function Unwrapped() {
                 credentials: 'include'
 
             });
+            
             console.log("Response received");
 
             if (!response.ok) {
@@ -142,7 +143,7 @@ function Unwrapped() {
             </div>
 
 
-            {loading ? (<p>Loading, give me a sec...</p>) : error ? (<p>Error has occurred</p>) : isSongsEnabled ? (
+            {loading ? (<p className={styles.centerContent}>Select one of the buttons to load content.</p>) : error ? (<p>Error has occurred</p>) : isSongsEnabled ? (
                     <div>
                         <div className={styles.centerContent}>
                             <h2 className={styles.text}>Here are your top tracks!</h2>
@@ -166,7 +167,14 @@ function Unwrapped() {
                 ) :
                 <div>
                     <h2 className={styles.text}>Here are your top artists!</h2>
-
+                        <div className={styles.centerContent}>
+                            <button className="btn btn-outline-secondary"
+                                    onClick={() => getTopArtists('short_term')}>Recent
+                            </button>
+                            <button className="btn btn-outline-secondary"
+                                    onClick={() => getTopArtists('long_term')}>Within the last year
+                            </button>
+                        </div>
                     <ul>
                         {(topArtists || []).map((artistObject, index) => (
                             <ArtistComponent artist={artistObject} key={index} num={index + 1}/>

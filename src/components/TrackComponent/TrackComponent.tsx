@@ -10,7 +10,7 @@ function TrackComponent({track, num}: {track: Track, num: number}) {
                 <img className={styles.imageContainer} src={track.album.images[1].url}/>
                 <h3 className={styles.trackHeading}>{track.artists.map((x) => x.name).join(", ")}</h3>
                 <h4 className={styles.text}>{track.album.name}</h4>
-                <video width="640" height="60" controls>
+                <video key={track.external_urls.spotify} width="640" height="60" controls>
                     <source src={track.preview_url} type="video/mp4"/>
                     Your browser does not support the video tag.
                 </video>

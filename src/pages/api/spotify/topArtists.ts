@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import cookie from "cookie";
+import querystring from "querystring";
 
 type Data = {
     success: boolean;
@@ -11,10 +12,7 @@ type Data = {
 export default async function TopArtistsRoute(req: NextApiRequest, res: NextApiResponse<Data>) {
     try {
         // Get Spotify Data
-        var queryParams = req.query.toString();
-
-        let limit : number = parseInt(req.query.amount as string, 10);
-        limit = 10;
+        const queryParams = querystring.stringify(req.query);
 
         const baseurl = "https://api.spotify.com";
         const fullUrl = `${baseurl}/v1/me/top/artists?${queryParams}`;
@@ -23,8 +21,8 @@ export default async function TopArtistsRoute(req: NextApiRequest, res: NextApiR
         const cookies = cookie.parse(req.headers.cookie || '');
         const token = cookies.token;
 
-        // Log the token for debugging purposes
-        console.log('Test token:', token);
+        // // Log the token for debugging purposes
+        // console.log('Test token:', token);
 
         if (!token) {
             // Return an unauthorized response if token is missing

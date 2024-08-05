@@ -17,9 +17,7 @@ export default async function TopSongsRoute(req: NextApiRequest, res: NextApiRes
 
         const queryParams = querystring.stringify(req.query);
         
-        console.log("Query Params: ", req.query);
-        // let limit : number = parseInt(req.query.amount as string, 10);
-        // limit = 10;
+        // console.log("Query Params: ", req.query);
 
         const baseurl = "https://api.spotify.com";
         const fullUrl = `${baseurl}/v1/me/top/tracks?${queryParams}`;
