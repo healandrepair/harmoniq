@@ -1,6 +1,6 @@
 
 A web app I wrote that uses the Spotify API to grab your top tracks and artists.
-You can view your most recent songs and artists you have been listening to as well as the your favourite tunes in the past year. Simply log into Spotify and get started!
+You can view your most recent songs and artists you have been listening to as well as the your favourite tunes in the past year. Simply log into your Spotify and get started!
 ![image](https://github.com/user-attachments/assets/df868001-f375-4427-bede-30fb34d9f479)
 ![image](https://github.com/user-attachments/assets/1e2835a1-5fa6-4823-b75c-90b45a48dd3b)
 
